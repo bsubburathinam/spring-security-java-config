@@ -9,15 +9,14 @@ import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRegistration;
 
-public class web implements WebApplicationInitializer
+public class Web implements WebApplicationInitializer
 {
     @Override
     public void onStartup(ServletContext servletContext) throws ServletException
     {
         AnnotationConfigWebApplicationContext appContext =
             new AnnotationConfigWebApplicationContext();
-        appContext.register(AppContext.class);
-        appContext.register(WebAppContext.class);
+        appContext.register(WebAppContextConfig.class);
         servletContext.addListener(new ContextLoaderListener(appContext));
         ServletRegistration.Dynamic dispatcher =
             servletContext.addServlet(
