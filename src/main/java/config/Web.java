@@ -24,6 +24,6 @@ public class Web implements WebApplicationInitializer
                 new DispatcherServlet(appContext)
             )
         ;
-        dispatcher.addMapping("/*");
+        dispatcher.addMapping("/");
     }
 }
