@@ -21,20 +21,6 @@ public class SecurityContextConfig extends WebSecurityConfigurerAdapter
             .withUser("admin").password("adminpassword").roles("USER", "ADMIN");
     }
 
-//    @Override
-//    protected void configure(HttpSecurity http) throws Exception {
-//        http
-//                .authorizeRequests() // There are multiple children to the http.authorizeRequests() method each matcher is considered in the order they were declared.
-//                    .antMatchers("/message").access("hasRole('ROLE_USER')")
-//                    .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')") // URLs starting with admin requires ADMIN role
-//                    .anyRequest().authenticated() // Ensures that any request to our application requires the user to be authenticated
-//                    .and()
-//                .formLogin() // Allows users to authenticate with form based login
-//                    .loginPage("/login")
-//                    .permitAll()
-//        ;
-//    }
-
     @Configuration
     @Order(1)
     public static class DemoWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
