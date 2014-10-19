@@ -26,11 +26,9 @@ public class SecurityContextConfig extends WebSecurityConfigurerAdapter
                     .anyRequest().authenticated() // Ensures that any request to our application requires the user to be authenticated
                     .and()
                 .formLogin() // Allows users to authenticate with form based login
+                    .loginPage("/login")
+                    .permitAll()
                     .and()
-                .httpBasic() // Allows users to authenticate with HTTP Basic authentication
-        // in other words, if user submits credentials using basic auth, fulfill the request
-        // otherwise show basic authentication dialog
-        // If user goes to  http://localhost:8080/app/login, show form based login screen
         ;
     }
 }
