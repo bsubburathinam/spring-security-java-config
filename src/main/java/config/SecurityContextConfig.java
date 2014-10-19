@@ -25,6 +25,7 @@ public class SecurityContextConfig extends WebSecurityConfigurerAdapter
         http
                 .authorizeRequests() // There are multiple children to the http.authorizeRequests() method each matcher is considered in the order they were declared.
                     .antMatchers("/demo").permitAll()
+                    .antMatchers("/message").access("hasRole('ROLE_USER')")
                     .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')") // URLs starting with admin requires ADMIN role
                     .anyRequest().authenticated() // Ensures that any request to our application requires the user to be authenticated
                     .and()
