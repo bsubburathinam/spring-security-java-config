@@ -16,6 +16,7 @@ public class Web implements WebApplicationInitializer
     {
         AnnotationConfigWebApplicationContext appContext =
             new AnnotationConfigWebApplicationContext();
+        appContext.register(SecurityContextConfig.class);
         appContext.register(WebAppContextConfig.class);
         servletContext.addListener(new ContextLoaderListener(appContext));
         ServletRegistration.Dynamic dispatcher =
