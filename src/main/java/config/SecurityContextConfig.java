@@ -26,8 +26,8 @@ public class SecurityContextConfig extends WebSecurityConfigurerAdapter
     public static class DemoWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
             http
-                .antMatcher("/demo")
-                .authorizeRequests().anyRequest().permitAll();
+                .antMatcher("/demo") // If the re quest is for /demo,
+                .authorizeRequests().anyRequest().permitAll(); // permit every body
         }
     }
 
@@ -36,11 +36,11 @@ public class SecurityContextConfig extends WebSecurityConfigurerAdapter
     public static class AdminWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
         protected void configure(HttpSecurity http) throws Exception {
             http
-                .antMatcher("/admin/**")
-                .authorizeRequests()
-                .anyRequest().hasRole("ADMIN")
-                .and()
-                .httpBasic();
+                .antMatcher("/admin/**") // if the request starts with /admin
+                .authorizeRequests() // authorization is required
+                .anyRequest().hasRole("ADMIN") // user must have admin role
+                .and() // and
+                .httpBasic(); // use basic http authentication to authenticate the user
         }
     }
 
@@ -51,10 +51,10 @@ public class SecurityContextConfig extends WebSecurityConfigurerAdapter
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
-                .authorizeRequests()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin();
+                .authorizeRequests() // if a request is not matched by any other WebSecurityConfigurerAdapter that has a @Order of less than this one
+                .anyRequest().authenticated() // it requires authentication
+                .and() // and
+                .formLogin(); // use form based login for authentication
         }
     }
 
