@@ -2,6 +2,7 @@ package config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -20,18 +21,55 @@ public class SecurityContextConfig extends WebSecurityConfigurerAdapter
             .withUser("admin").password("adminpassword").roles("USER", "ADMIN");
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-                .authorizeRequests() // There are multiple children to the http.authorizeRequests() method each matcher is considered in the order they were declared.
-                    .antMatchers("/demo").permitAll()
-                    .antMatchers("/message").access("hasRole('ROLE_USER')")
-                    .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')") // URLs starting with admin requires ADMIN role
-                    .anyRequest().authenticated() // Ensures that any request to our application requires the user to be authenticated
-                    .and()
-                .formLogin() // Allows users to authenticate with form based login
-                    .loginPage("/login")
-                    .permitAll()
-        ;
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http
+//                .authorizeRequests() // There are multiple children to the http.authorizeRequests() method each matcher is considered in the order they were declared.
+//                    .antMatchers("/message").access("hasRole('ROLE_USER')")
+//                    .antMatchers("/admin/**").access("hasRole('ROLE_ADMIN')") // URLs starting with admin requires ADMIN role
+//                    .anyRequest().authenticated() // Ensures that any request to our application requires the user to be authenticated
+//                    .and()
+//                .formLogin() // Allows users to authenticate with form based login
+//                    .loginPage("/login")
+//                    .permitAll()
+//        ;
+//    }
+
+    @Configuration
+    @Order(1)
+    public static class DemoWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                .antMatcher("/demo")
+                .authorizeRequests().anyRequest().permitAll();
+        }
     }
+
+    @Configuration
+    @Order(2)
+    public static class AdminWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                .antMatcher("/admin/**")
+                .authorizeRequests()
+                .anyRequest().hasRole("ADMIN")
+                .and()
+                .httpBasic();
+        }
+    }
+
+    @Configuration
+    @Order(3)
+    public static class DefaultWebSecurityConfigurerAdapter extends WebSecurityConfigurerAdapter {
+
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                .authorizeRequests()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin();
+        }
+    }
+
 }
