@@ -28,7 +28,6 @@ public class SecurityContextConfig extends WebSecurityConfigurerAdapter
                 .formLogin() // Allows users to authenticate with form based login
                     .loginPage("/login")
                     .permitAll()
-                    .and()
         ;
     }
 }
