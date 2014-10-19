@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class IndexController
+public class MessageController
 {
     @RequestMapping("/message")
     @ResponseBody
