@@ -14,7 +14,7 @@ public class AdminController
     @RequestMapping("/admin/addUser")
     public @ResponseBody Map<String,String> addUser(String username)
     {
-        Map<String,String> usermap = new HashMap<>(1);
+        Map<String,String> usermap = new HashMap<String, String>(1);
         usermap.put("username", username);
         return usermap;
     }
