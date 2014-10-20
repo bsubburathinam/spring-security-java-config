@@ -54,7 +54,11 @@ public class SecurityContextConfig extends WebSecurityConfigurerAdapter
                 .authorizeRequests() // if a request is not matched by any other WebSecurityConfigurerAdapter that has a @Order of less than this one
                 .anyRequest().authenticated() // it requires authentication
                 .and() // and
-                .formLogin(); // use form based login for authentication
+                .formLogin() // use form based login for authentication
+                .loginPage("/login") // login page is available at /login
+                .permitAll() // allow everybody to access the login page
+            ;
+
         }
     }
 
