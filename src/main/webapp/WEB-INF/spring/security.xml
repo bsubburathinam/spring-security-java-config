@@ -1,0 +1,47 @@
+<beans:beans xmlns:beans="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns="http://www.springframework.org/schema/security"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/security
+        http://www.springframework.org/schema/security/spring-security.xsd">
+    <http entry-point-ref="entryPoint"> <!--error if not provided: org.springframework.beans.factory.parsing.BeanDefinitionParsingException: Configuration problem: No AuthenticationEntryPoint could be established. Please make sure you have a login mechanism configured through the namespace (such as form-login) or specify a custom AuthenticationEntryPoint with the 'entry-point-ref' attribute -->
+        <intercept-url pattern="/**" access="ROLE_USER"/>
+        <custom-filter ref="preAuthenticatedProcessingFilter" position="PRE_AUTH_FILTER"/>
+    </http>
+
+    <beans:bean
+        class="org.springframework.security.web.authentication.Http403ForbiddenEntryPoint"
+        id="entryPoint"/>
+
+    <beans:bean
+        id="preAuthenticatedProcessingFilter"
+        class="filter.PreAuthenticatedProcessingFilter">
+        <beans:property
+            name="authenticationManager"
+            ref="authenticationManager"/>
+    </beans:bean>
+    <beans:bean
+        id="authenticationProvider"
+        class="org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationProvider">
+        <beans:property
+            name="preAuthenticatedUserDetailsService"
+            ref="userDetailsService"/>
+        <beans:property
+            name="order"
+            value="1"/>
+    </beans:bean>
+
+    <beans:bean
+        id="userDetailsService"
+        class="config.AuthenticatedUserDetailsServiceImpl"/>
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider ref="authenticationProvider"/>
+
+    </authentication-manager>
+</beans:beans>
