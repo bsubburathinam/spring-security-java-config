@@ -15,7 +15,7 @@ public class PreAuthenticatedProcessingFilter extends AbstractPreAuthenticatedPr
     @Override
     protected Object getPreAuthenticatedCredentials(HttpServletRequest httpServletRequest)
     {
-        return "ROLE_USER";
+        return "N/A";
     }
 }
 

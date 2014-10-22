@@ -3,6 +3,7 @@ package config;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.GrantedAuthorityImpl;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,7 +17,9 @@ public class AuthenticatedUserDetailsServiceImpl implements AuthenticationUserDe
     @Override
     public UserDetails loadUserDetails(Authentication authentication) throws UsernameNotFoundException {
         Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
-        authorities.add(new GrantedAuthorityImpl("ROLE_USER"));
+        System.out.println(authentication.getAuthorities());
+        System.out.println(authentication.getCredentials());
+        authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
         return new User((String) authentication.getPrincipal(), "none", true, true, true, true, authorities);
     }
 }
